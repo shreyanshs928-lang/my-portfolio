@@ -1,0 +1,125 @@
+/* -------------------------------------------------------------
+   GLOBAL KEYFRAMES & UTILITIES
+   ------------------------------------------------------------- */
+
+/* Custom Default Curve: Expo ease-out feel */
+.ease-out-expo {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Page Load Overlay exit */
+@keyframes slideUpExit {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.overlay-slide-exit {
+  animation: slideUpExit 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Continuous Marquee Ticker Loop */
+@keyframes marqueeLoop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.hero-marquee-track {
+  animation: marqueeLoop 30s linear infinite;
+}
+
+.hero-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Hero Mesh Shift Background */
+@keyframes meshGradShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-mesh-canvas-animated {
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 0%, var(--bg-color) 100%);
+  background-size: 200% 200%;
+  animation: meshGradShift 15s ease infinite;
+}
+
+/* Performance Optimizations */
+.will-animate {
+  will-change: transform, opacity;
+}
+
+/* -------------------------------------------------------------
+   SCROLL REVEALS (VANILLA TRANSITIONS)
+   ------------------------------------------------------------- */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(40px);
+  filter: blur(4px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+
+/* Darkroom developing stagger grids */
+.darkroom-item {
+  opacity: 0;
+  transform: translateY(30px);
+  filter: contrast(2.5) brightness(0.3) saturate(0.5) blur(6px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.darkroom-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  filter: contrast(1) brightness(1) saturate(1) blur(0px);
+}
+
+/* Custom Cursor Glow */
+.cursor-ring-glow {
+  mix-blend-mode: difference;
+}
+
+/* Page Loader Name Fade In and Skew */
+@keyframes loaderTextReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) skewY(4deg);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) skewY(0);
+    filter: blur(0px);
+  }
+}
+
+.loader-text-anim {
+  animation: loaderTextReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

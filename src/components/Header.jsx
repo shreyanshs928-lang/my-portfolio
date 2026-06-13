@@ -1,0 +1,96 @@
+import React, { useState, useEffect, useContext } from 'react';
+import { CursorContext } from '../context/CursorContext';
+
+export const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { setMagneticElement, triggerHover, triggerDefault } = useContext(CursorContext);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navItems = [
+    { label: 'About', href: '#about' },
+    { label: 'Work', href: '#work' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Experience', href: '#experience' }
+  ];
+
+  return (
+    <header className={`header ${isScrolled ? 'scrolled' : ''}`} id="main-header">
+      <div class="container header-container">
+        <a
+          href="#hero"
+          class="logo display-font"
+          onMouseEnter={(e) => {
+            setMagneticElement(e.currentTarget);
+            triggerHover('Home');
+          }}
+          onMouseLeave={triggerDefault}
+        >
+          SHREYANSH<span>.</span>
+        </a>
+        
+        <button
+          className={`mobile-nav-toggle ${isMobileMenuOpen ? 'open' : ''}`}
+          aria-label="Toggle Navigation"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+
+        <nav>
+          <ul className={`nav-list ${isMobileMenuOpen ? 'open' : ''}`}>
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="nav-link"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  onMouseEnter={(e) => {
+                    setMagneticElement(e.currentTarget);
+                    triggerHover(item.label);
+                  }}
+                  onMouseLeave={triggerDefault}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href="#contact"
+                className="nav-link header-cta-mobile"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div className="header-cta">
+          <a
+            href="#contact"
+            className="btn btn-secondary"
+            onMouseEnter={(e) => {
+              setMagneticElement(e.currentTarget);
+              triggerHover('Chat');
+            }}
+            onMouseLeave={triggerDefault}
+          >
+            Let's Talk
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+};
