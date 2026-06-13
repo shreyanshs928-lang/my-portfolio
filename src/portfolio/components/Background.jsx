@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from 'react';
-import { useFadeInOnScroll } from '../hooks/useFadeInOnScroll';
-import { CursorContext } from '../context/CursorContext';
+import { useFadeInOnScroll } from '../../hooks/useFadeInOnScroll';
+import { CursorContext } from '../../context/CursorContext';
 import { Award } from 'lucide-react';
 
 export const Background = ({ backgroundData }) => {

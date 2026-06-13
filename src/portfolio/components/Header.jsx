@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CursorContext } from '../context/CursorContext';
+import { CursorContext } from '../../context/CursorContext';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,10 +24,10 @@ export const Header = () => {
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`} id="main-header">
-      <div class="container header-container">
+      <div className="container header-container">
         <a
           href="#hero"
-          class="logo display-font"
+          className="logo display-font"
           onMouseEnter={(e) => {
             setMagneticElement(e.currentTarget);
             triggerHover('Home');
@@ -42,9 +42,9 @@ export const Header = () => {
           aria-label="Toggle Navigation"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          <span class="burger-line"></span>
-          <span class="burger-line"></span>
-          <span class="burger-line"></span>
+          <span className="burger-line"></span>
+          <span className="burger-line"></span>
+          <span className="burger-line"></span>
         </button>
 
         <nav>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { CursorContext } from '../context/CursorContext';
+import { CursorContext } from '../../context/CursorContext';
 
 export const Hero = ({ profileData }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -11,15 +11,20 @@ export const Hero = ({ profileData }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const tagline = profileData.profile.tagline || "Design that thinks. Work that speaks.";
+  const tagline = profileData?.profile?.headline || "Creative Lead & Multidisciplinary Designer";
+  const subhead = profileData?.profile?.subhead || "";
+  const resumeUrl = profileData?.profile?.resumeUrl || "#";
+  const ctaLabel = profileData?.profile?.ctaLabel || "View Work";
+  const disciplines = profileData?.disciplines || [];
+
   const headlineWords = tagline.split(" ");
   const subheadDelay = (headlineWords.length * 80) + 200;
   const ctaDelay = subheadDelay + 300;
 
   return (
     <section id="hero" style={{ overflow: 'hidden' }}>
-      <div class="container hero-wrapper">
-        <div class="hero-content">
+      <div className="container hero-wrapper">
+        <div className="hero-content">
           <h1 className="hero-headline display-font">
             {headlineWords.map((word, idx) => (
               <span key={idx} style={{ overflow: 'hidden', display: 'inline-block', verticalAlign: 'top' }}>
@@ -33,7 +38,6 @@ export const Hero = ({ profileData }) => {
                     transitionDelay: `${idx * 80}ms`
                   }}
                 >
-                  {/* Handle HTML break tags if present, otherwise output word */}
                   {word.includes("<br>") ? (
                     <>
                       {word.replace("<br>", "")}
@@ -56,7 +60,7 @@ export const Hero = ({ profileData }) => {
               transitionDelay: `${subheadDelay}ms`
             }}
           >
-            {profileData.profile.subhead}
+            {subhead}
           </p>
 
           <div
@@ -78,10 +82,10 @@ export const Hero = ({ profileData }) => {
               }}
               onMouseLeave={triggerDefault}
             >
-              View Work ↓
+              {ctaLabel} ↓
             </a>
             <a
-              href={profileData.profile.resumeUrl || '#'}
+              href={resumeUrl}
               className="btn btn-secondary"
               target="_blank"
               rel="noopener noreferrer"
@@ -96,16 +100,18 @@ export const Hero = ({ profileData }) => {
           </div>
         </div>
 
-        {/* CSS Ticker */}
-        <div class="hero-marquee-container">
-          <div class="hero-marquee-track">
-            {profileData.disciplines.concat(profileData.disciplines).map((disc, idx) => (
-              <div key={idx} class="hero-marquee-item">
-                <span>·</span> {disc}
-              </div>
-            ))}
+        {/* Ticker marquee banner */}
+        {disciplines.length > 0 && (
+          <div className="hero-marquee-container">
+            <div className="hero-marquee-track">
+              {disciplines.concat(disciplines).map((disc, idx) => (
+                <div key={idx} className="hero-marquee-item">
+                  <span>·</span> {disc}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

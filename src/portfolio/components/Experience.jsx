@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from 'react';
-import { useFadeInOnScroll } from '../hooks/useFadeInOnScroll';
-import { CursorContext } from '../context/CursorContext';
+import { useFadeInOnScroll } from '../../hooks/useFadeInOnScroll';
+import { CursorContext } from '../../context/CursorContext';
 
 export const Experience = ({ experienceData }) => {
   const sectionRef = useRef(null);

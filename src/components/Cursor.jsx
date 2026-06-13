@@ -22,8 +22,10 @@ export const Cursor = () => {
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
+  const isAdminRoute = window.location.pathname.startsWith('/admin');
+
   useEffect(() => {
-    if (isMobile || prefersReducedMotion) {
+    if (isMobile || prefersReducedMotion || isAdminRoute) {
       document.body.classList.remove('custom-cursor-active');
       return;
     }
@@ -39,10 +41,11 @@ export const Cursor = () => {
       window.removeEventListener('mouseup', handleMouseUp);
       document.body.classList.remove('custom-cursor-active');
     };
-  }, [isMobile, prefersReducedMotion]);
+  }, [isMobile, prefersReducedMotion, isAdminRoute]);
 
-  // Hide cursor on mobile or if reduced motion is requested
-  if (isMobile || prefersReducedMotion) return null;
+  // Hide cursor on mobile, if reduced motion is requested, or on admin routes
+  if (isMobile || prefersReducedMotion || isAdminRoute) return null;
+
 
   // Render Portal to document.body
   return ReactDOM.createPortal(
