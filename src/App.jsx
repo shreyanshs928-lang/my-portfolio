@@ -3,14 +3,14 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-route
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import { CursorProvider } from './context/CursorContext';
 import { Cursor } from './components/Cursor';
-import { Header } from './components/Header';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { Work } from './components/WorkSection';
-import { Skills } from './components/Skills';
-import { Experience } from './components/Experience';
-import { Background } from './components/Background';
-import { Footer } from './components/Footer';
+import { Header } from './portfolio/components/Header';
+import { Hero } from './portfolio/components/Hero';
+import { About } from './portfolio/components/About';
+import { Work } from './portfolio/components/WorkSection';
+import { Skills } from './portfolio/components/Skills';
+import { Experience } from './portfolio/components/Experience';
+import { Background } from './portfolio/components/Background';
+import { Footer } from './portfolio/components/Footer';
 import { usePortfolioData } from './portfolio/hooks/usePortfolioData';
 
 // Code-split lazy loaded admin bundle pages

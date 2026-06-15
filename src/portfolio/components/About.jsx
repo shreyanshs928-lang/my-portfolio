@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
-import { useFadeInOnScroll } from '../hooks/useFadeInOnScroll';
+import { useFadeInOnScroll } from '../../hooks/useFadeInOnScroll';
 import { CursorContext } from '../../context/CursorContext';
 
 export const About = ({ profileData }) => {
