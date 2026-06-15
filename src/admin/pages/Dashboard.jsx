@@ -12,7 +12,8 @@ import {
   saveExperience,
   saveWorkProject,
   deleteWorkProject,
-  saveWorkProjectOrder
+  saveWorkProjectOrder,
+  seedDefaultData
 } from '../../firebase/firestore';
 import { deleteImage } from '../../firebase/storage';
 import {
@@ -332,6 +333,31 @@ export default function Dashboard() {
     navigate('/admin/login');
   };
 
+  // Reset database handler
+  const handleResetDatabase = async () => {
+    const confirmReset = window.confirm(
+      'Are you sure you want to reset all database collections to default? This will overwrite all your current modifications.'
+    );
+    if (!confirmReset) return;
+
+    setSaveStatus('saving');
+    try {
+      await seedDefaultData();
+      mutate('firestore/portfolio');
+      const freshData = await fetchPortfolioData();
+      setData(freshData);
+      initializeForms(freshData);
+      setHasUnsavedChanges(false);
+      setSaveStatus('saved');
+      alert('Portfolio database has been successfully reset to defaults!');
+      setTimeout(() => setSaveStatus(''), 3000);
+    } catch (err) {
+      console.error(err);
+      setSaveStatus('error');
+      alert('Error resetting database. Check browser console.');
+    }
+  };
+
   // Modal save handler for individual work items
   const handleSaveProjectModal = async (projectPayload) => {
     const cat = activeTab.replace('work-', '');
@@ -441,6 +467,14 @@ export default function Dashboard() {
         <div className="flex items-center gap-4">
           <span className="text-xs text-[#a1a1aa] font-medium hidden sm:inline">{currentUser?.email}</span>
           
+          <button
+            onClick={handleResetDatabase}
+            className="flex items-center gap-1.5 text-xs text-amber-500 hover:text-white border border-amber-500/30 hover:border-amber-500 px-3 py-1.5 rounded bg-amber-500/5 transition-all cursor-pointer"
+          >
+            <RefreshCw size={12} />
+            <span>Reset Defaults</span>
+          </button>
+
           <a
             href="/"
             target="_blank"
