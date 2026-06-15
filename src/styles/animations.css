@@ -54,12 +54,90 @@
 
 .bg-mesh-canvas-animated {
   background: 
-    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 0%, var(--bg-color) 100%);
+    radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 90% 15%, rgba(255, 138, 76, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 15% 85%, rgba(255, 138, 76, 0.06) 0%, transparent 45%),
+    var(--bg-color);
   background-size: 200% 200%;
-  animation: meshGradShift 15s ease infinite;
+  animation: meshGradShift 20s ease infinite;
 }
+
+/* Glowing Rotating Gradient Portrait Border */
+@keyframes rotateGradient {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating-gradient-border {
+  position: relative;
+  padding: 1.5px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.rotating-gradient-border::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    #8B5CF6 0%,
+    #FF8A4C 50%,
+    #8B5CF6 100%
+  );
+  animation: rotateGradient 8s linear infinite;
+  z-index: -2;
+}
+
+.rotating-gradient-border::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  background: #0B0F19;
+  border-radius: 15px;
+  z-index: -1;
+}
+
+/* Pulsing ambient glow blob */
+@keyframes ambientGlowPulse {
+  0% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 0.12;
+  }
+  50% {
+    transform: scale(1.25) translate(-40%, -40%);
+    opacity: 0.22;
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 0.12;
+  }
+}
+
+.ambient-glow-pulse {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-violet) 0%, var(--accent-amber) 100%);
+  filter: blur(80px);
+  z-index: -1;
+  pointer-events: none;
+  animation: ambientGlowPulse 8s ease-in-out infinite;
+}
+
 
 /* Performance Optimizations */
 .will-animate {

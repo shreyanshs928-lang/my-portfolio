@@ -17,9 +17,17 @@ export const defaultPortfolioData = {
   passcode: 'admin',
   profile: {
     name: 'Shreyansh Singh',
-    tagline: 'Creative Lead & Multidisciplinary Designer',
-    subhead: 'Designing visual brands, editorial systems, and digital interfaces at the intersection of engineering systems and creative aesthetics.',
-    resumeUrl: 'https://drive.google.com/file/d/1Bypb7F4N-a477yBw4Oqg_xZpxq0V0f_B/view?usp=sharing'
+    headline: 'Multidisciplinary Designer +\nChemical Engineer',
+    subhead: "I design across UI/UX, motion, print and social — blending an engineer's precision with a designer's instinct. Currently building creative systems at IIT Bombay.",
+    resumeUrl: 'https://drive.google.com/file/d/1Bypb7F4N-a477yBw4Oqg_xZpxq0V0f_B/view?usp=sharing',
+    ctaLabel: 'Download Resume',
+    profilePhoto: 'svg:profile-placeholder',
+    stats: [
+      { number: '2+', label: 'Years Designing' },
+      { number: '10+', label: 'Projects Shipped' },
+      { number: '6', label: 'Disciplines' },
+      { number: "IIT Bombay '27", label: 'Student Core' }
+    ]
   },
   disciplines: [
     'Creative Direction',
@@ -152,11 +160,13 @@ export const seedDefaultData = async () => {
   // 1. Hero
   const heroRef = doc(db, 'portfolio', 'hero');
   batch.set(heroRef, {
-    headline: defaultPortfolioData.profile.tagline,
+    headline: defaultPortfolioData.profile.headline,
     subhead: defaultPortfolioData.profile.subhead,
     resumeUrl: defaultPortfolioData.profile.resumeUrl,
-    ctaLabel: 'View Work',
+    ctaLabel: defaultPortfolioData.profile.ctaLabel,
+    profilePhoto: defaultPortfolioData.profile.profilePhoto,
     ticker: defaultPortfolioData.disciplines,
+    stats: defaultPortfolioData.profile.stats,
     lastEdited: serverTimestamp()
   });
 

@@ -130,6 +130,8 @@ export default function Dashboard() {
       subhead: payload.hero.subhead || '',
       resumeUrl: payload.hero.resumeUrl || '',
       ctaLabel: payload.hero.ctaLabel || 'View Work',
+      profilePhoto: payload.hero.profilePhoto || '',
+      stats: payload.hero.stats || [],
       tickerInput: (payload.hero.ticker || []).join(', ')
     });
 
@@ -229,6 +231,8 @@ export default function Dashboard() {
           subhead: heroForm.subhead.trim(),
           resumeUrl: heroForm.resumeUrl.trim(),
           ctaLabel: heroForm.ctaLabel.trim(),
+          profilePhoto: heroForm.profilePhoto || '',
+          stats: heroForm.stats || [],
           ticker: heroForm.tickerInput.split(',').map((t) => t.trim()).filter(Boolean)
         };
         await saveHero(payload);
@@ -589,6 +593,93 @@ export default function Dashboard() {
                       setHasUnsavedChanges(true);
                     }}
                   />
+                </div>
+
+                {/* Profile photo manager */}
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Hero Profile Photo</label>
+                  <ImageUploader
+                    section="hero"
+                    value={heroForm.profilePhoto}
+                    onChange={(url) => {
+                      setHeroForm({ ...heroForm, profilePhoto: url });
+                      setHasUnsavedChanges(true);
+                    }}
+                    placeholder="svg:profile-placeholder"
+                  />
+                </div>
+
+                {/* Dynamic Stats List Editor */}
+                <div className="space-y-4 pt-4 border-t border-[#27272a]">
+                  <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Hero Stats (Bottom Row)</h4>
+                  <div className="space-y-3">
+                    {heroForm.stats && heroForm.stats.map((stat, index) => (
+                      <div key={index} className="flex items-end gap-3 bg-[#1c1c1f] p-4 rounded border border-[#27272a]">
+                        <div className="flex-1 grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-wider text-[#a1a1aa]">Stat Value (e.g. 10+)</label>
+                            <input
+                              type="text"
+                              required
+                              className="w-full bg-[#18181b]/60 border border-[#27272a] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
+                              value={stat.number}
+                              onChange={(e) => {
+                                const newStats = [...heroForm.stats];
+                                newStats[index] = { ...newStats[index], number: e.target.value };
+                                setHeroForm({ ...heroForm, stats: newStats });
+                                setHasUnsavedChanges(true);
+                              }}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-wider text-[#a1a1aa]">Stat Label (e.g. Projects Shipped)</label>
+                            <input
+                              type="text"
+                              required
+                              className="w-full bg-[#18181b]/60 border border-[#27272a] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
+                              value={stat.label}
+                              onChange={(e) => {
+                                const newStats = [...heroForm.stats];
+                                newStats[index] = { ...newStats[index], label: e.target.value };
+                                setHeroForm({ ...heroForm, stats: newStats });
+                                setHasUnsavedChanges(true);
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className="text-[#FF5F56] hover:text-[#ff4b40] p-2 transition-colors mb-0.5"
+                          onClick={() => {
+                            const newStats = heroForm.stats.filter((_, i) => i !== index);
+                            setHeroForm({ ...heroForm, stats: newStats });
+                            setHasUnsavedChanges(true);
+                          }}
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                    {(!heroForm.stats || heroForm.stats.length === 0) && (
+                      <p className="text-sm text-zinc-500 italic">No stats defined yet. Click "Add Stat Card" below.</p>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    className="admin-btn-add flex items-center gap-2 mt-2"
+                    onClick={() => {
+                      const newStats = [...(heroForm.stats || []), { number: '', label: '' }];
+                      setHeroForm({ ...heroForm, stats: newStats });
+                      setHasUnsavedChanges(true);
+                    }}
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add Stat Card
+                  </button>
                 </div>
               </form>
             )}

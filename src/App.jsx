@@ -101,7 +101,7 @@ const PortfolioHome = () => {
 
       {/* 4. Modular Visual Sections mapped to Firestore data */}
       <main>
-        <Hero profileData={{ profile: portfolioData.hero, disciplines: portfolioData.hero.ticker }} />
+        <Hero profileData={{ profile: portfolioData.hero, disciplines: portfolioData.hero.ticker }} footerData={portfolioData.footer} />
         <About profileData={{ about: portfolioData.about }} />
         
         {/* Render Work Projects (filter draft vs published) */}
@@ -113,7 +113,7 @@ const PortfolioHome = () => {
       </main>
 
       {/* 5. Footer with secret admin route trigger */}
-      <Footer onSecretClick={handleAdminRedirect} />
+      <Footer footerData={portfolioData.footer} onSecretClick={handleAdminRedirect} />
     </>
   );
 };

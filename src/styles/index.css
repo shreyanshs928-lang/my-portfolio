@@ -6,18 +6,21 @@
    DESIGN SYSTEM & TOKENS
    ------------------------------------------------------------- */
 :root {
-  --bg-color: #0B0B0C;
+  --bg-color: #0A0E1A;
   --bg-card: #141416;
   --bg-card-hover: #1A1A1E;
   --text-main: #E8E8E8;
   --text-muted: #8E8E93;
   --text-white: #FFFFFF;
   
-  /* Accent Color - Electric Indigo */
+  /* Dual Accent Colors - Violet & Amber */
   --accent: hsl(250, 84%, 60%);
+  --accent-violet: #8B5CF6;
+  --accent-amber: #FF8A4C;
+  --accent-gradient: linear-gradient(135deg, var(--accent-violet) 0%, var(--accent-amber) 100%);
   --accent-hover: hsl(250, 95%, 70%);
-  --accent-glow: rgba(99, 102, 241, 0.15);
-  --accent-border: rgba(99, 102, 241, 0.25);
+  --accent-glow: rgba(139, 92, 246, 0.15);
+  --accent-border: rgba(139, 92, 246, 0.25);
   
   --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -166,6 +169,44 @@ section {
   transform: translateY(-2px);
 }
 
+.btn-gradient {
+  background: var(--accent-gradient);
+  color: var(--text-white);
+  border: none;
+  border-radius: 9999px;
+  padding: 0.75rem 2rem;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+  transition: var(--transition-fast);
+}
+
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.45);
+  opacity: 0.95;
+  color: var(--text-white);
+}
+
+.social-circle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-muted);
+  background: transparent;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.social-circle-btn:hover {
+  border-color: var(--accent-violet);
+  color: var(--text-white);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
 .view-all-link {
   display: inline-flex;
   align-items: center;
@@ -225,10 +266,10 @@ section {
 
 .header.scrolled {
   height: 70px;
-  background-color: rgba(11, 11, 12, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(10, 14, 26, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(39, 39, 42, 0.3);
 }
 
 .header-container {

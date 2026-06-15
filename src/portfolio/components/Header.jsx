@@ -18,8 +18,9 @@ export const Header = () => {
   const navItems = [
     { label: 'About', href: '#about' },
     { label: 'Work', href: '#work' },
+    { label: 'Experience', href: '#experience' },
     { label: 'Skills', href: '#skills' },
-    { label: 'Experience', href: '#experience' }
+    { label: 'Contact', href: '#contact' }
   ];
 
   return (
@@ -34,7 +35,7 @@ export const Header = () => {
           }}
           onMouseLeave={triggerDefault}
         >
-          SHREYANSH<span>.</span>
+          Shreyansh Singh<span style={{ color: 'var(--accent-amber)' }}>.</span>
         </a>
         
         <button
@@ -65,29 +66,20 @@ export const Header = () => {
                 </a>
               </li>
             ))}
-            <li>
-              <a
-                href="#contact"
-                className="nav-link header-cta-mobile"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contact
-              </a>
-            </li>
           </ul>
         </nav>
 
         <div className="header-cta">
           <a
             href="#contact"
-            className="btn btn-secondary"
+            className="btn btn-gradient"
             onMouseEnter={(e) => {
               setMagneticElement(e.currentTarget);
               triggerHover('Chat');
             }}
             onMouseLeave={triggerDefault}
           >
-            Let's Talk
+            Let's Connect
           </a>
         </div>
       </div>
