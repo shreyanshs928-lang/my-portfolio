@@ -72,8 +72,6 @@ const PortfolioHome = () => {
   const { portfolioData, isLoading, error } = usePortfolioData();
   const navigate = useNavigate();
 
-  // Seeding trigger check or network loader
-  if (isLoading) return <PortfolioSkeleton />;
   if (error) {
     return (
       <div style={{ display: 'flex', height: '100vh', backgroundColor: '#0D0D0D', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '1rem' }}>
@@ -101,19 +99,26 @@ const PortfolioHome = () => {
 
       {/* 4. Modular Visual Sections mapped to Firestore data */}
       <main>
-        <Hero profileData={{ profile: portfolioData.hero, disciplines: portfolioData.hero.ticker }} footerData={portfolioData.footer} />
-        <About profileData={{ about: portfolioData.about }} />
+        <Hero heroData={portfolioData?.hero} isLoading={isLoading} />
         
-        {/* Render Work Projects (filter draft vs published) */}
-        <Work portfolioData={{ work: portfolioData.work }} />
-        
-        <Skills skillsData={portfolioData.skills} />
-        <Experience experienceData={portfolioData.experience} />
-        <Background backgroundData={portfolioData.background} />
+        {!isLoading && portfolioData && (
+          <>
+            <About profileData={{ about: portfolioData.about }} />
+            
+            {/* Render Work Projects (filter draft vs published) */}
+            <Work portfolioData={{ work: portfolioData.work }} />
+            
+            <Skills skillsData={portfolioData.skills} />
+            <Experience experienceData={portfolioData.experience} />
+            <Background backgroundData={portfolioData.background} />
+          </>
+        )}
       </main>
 
       {/* 5. Footer with secret admin route trigger */}
-      <Footer footerData={portfolioData.footer} onSecretClick={handleAdminRedirect} />
+      {!isLoading && portfolioData && (
+        <Footer footerData={portfolioData.footer} onSecretClick={handleAdminRedirect} />
+      )}
     </>
   );
 };

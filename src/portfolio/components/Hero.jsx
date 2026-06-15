@@ -2,26 +2,16 @@ import React, { useEffect, useState, useContext } from 'react';
 import { CursorContext } from '../../context/CursorContext';
 import { Linkedin, Instagram, Mail } from 'lucide-react';
 
-export const Hero = ({ profileData, footerData }) => {
+export const Hero = ({ heroData, isLoading }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { setMagneticElement, triggerHover, triggerDefault } = useContext(CursorContext);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 150);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const tagline = profileData?.profile?.headline || "Multidisciplinary Designer +\nChemical Engineer";
-  const subhead = profileData?.profile?.subhead || "";
-  const resumeUrl = profileData?.profile?.resumeUrl || "#";
-  const disciplines = profileData?.disciplines || [];
-  const profilePhoto = profileData?.profile?.profilePhoto || "";
-  const stats = profileData?.profile?.stats || [];
-
-  // Split tagline by newline to get the two distinct visual lines
-  const lines = tagline.split("\n");
-  const firstLine = lines[0] || "Multidisciplinary Designer +";
-  const secondLine = lines[1] || "Chemical Engineer";
+    if (!isLoading) {
+      const timer = setTimeout(() => setIsLoaded(true), 150);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   // Behance icon component
   const BehanceIcon = () => (
@@ -32,11 +22,81 @@ export const Hero = ({ profileData, footerData }) => {
     </svg>
   );
 
+  if (isLoading) {
+    // High-fidelity inline skeleton loading layout to prevent layout shifts
+    return (
+      <section id="hero" style={{ overflow: 'hidden', minHeight: '92vh', display: 'flex', alignItems: 'center', padding: '8rem 0 4rem 0' }}>
+        <div className="container hero-wrapper w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Column Skeleton */}
+            <div className="lg:col-span-7 flex flex-col justify-center text-left">
+              {/* Eyebrow */}
+              <div className="h-4 w-28 bg-zinc-800/60 rounded animate-pulse mb-6" />
+              {/* Headline Line 1 */}
+              <div className="h-12 w-[85%] bg-zinc-800/60 rounded animate-pulse mb-3" />
+              {/* Headline Line 2 */}
+              <div className="h-12 w-[65%] bg-zinc-800/60 rounded animate-pulse mb-8" />
+              {/* Bio Paragraph Lines */}
+              <div className="space-y-3 mb-8">
+                <div className="h-4 w-full bg-zinc-800/60 rounded animate-pulse" />
+                <div className="h-4 w-[95%] bg-zinc-800/60 rounded animate-pulse" />
+                <div className="h-4 w-[75%] bg-zinc-800/60 rounded animate-pulse" />
+              </div>
+              {/* CTA & Socials */}
+              <div className="flex items-center gap-5 flex-wrap">
+                <div className="h-12 w-48 bg-zinc-800/60 rounded-full animate-pulse" />
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 bg-zinc-800/60 rounded-full animate-pulse" />
+                  <div className="h-11 w-11 bg-zinc-800/60 rounded-full animate-pulse" />
+                  <div className="h-11 w-11 bg-zinc-800/60 rounded-full animate-pulse" />
+                  <div className="h-11 w-11 bg-zinc-800/60 rounded-full animate-pulse" />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column Skeleton */}
+            <div className="lg:col-span-5 flex justify-center items-center">
+              <div className="w-full max-w-[340px] aspect-square bg-zinc-800/60 rounded-[16px] animate-pulse relative">
+                {/* Optional badge placeholder */}
+                <div className="absolute -bottom-3 -right-3 h-10 w-44 bg-zinc-800/80 border border-zinc-700/50 rounded-full animate-pulse" />
+              </div>
+            </div>
+          </div>
+
+          {/* Marquee Ticker Skeleton */}
+          <div className="h-8 w-full bg-zinc-800/40 rounded animate-pulse mt-16 lg:mt-24" />
+
+          {/* Stats Row Skeleton */}
+          <div className="mt-12 pt-10 border-t border-[#27272a]/20 grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex flex-col text-left space-y-2">
+                <div className="h-10 w-20 bg-zinc-800/60 rounded animate-pulse" />
+                <div className="h-3 w-28 bg-zinc-800/60 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const eyebrowText = heroData?.eyebrowText || "Hey, I'm Shreyansh";
+  const headlineLine1 = heroData?.headlineLine1 || "Multidisciplinary Designer +";
+  const headlineLine2 = heroData?.headlineLine2 || "Chemical Engineer";
+  const bioText = heroData?.bioText || "";
+  const resumeLink = heroData?.resumeLink || "#";
+  const badgeText = heroData?.badgeText || "";
+  const portraitImage = heroData?.portraitImage || "";
+  const stats = heroData?.stats || [];
+  const disciplines = heroData?.ticker || [];
+  const socialLinksData = heroData?.socialLinks || {};
+
   const socialLinks = [
-    { icon: <Linkedin size={20} />, url: footerData?.linkedinUrl, label: 'LinkedIn' },
-    { icon: <Instagram size={20} />, url: footerData?.instagramUrl, label: 'Instagram' },
-    { icon: <BehanceIcon />, url: footerData?.behanceUrl, label: 'Behance' },
-    { icon: <Mail size={20} />, url: footerData?.email ? `mailto:${footerData.email}` : null, label: 'Email' }
+    { icon: <Linkedin size={20} />, url: socialLinksData.linkedin, label: 'LinkedIn' },
+    { icon: <Instagram size={20} />, url: socialLinksData.instagram, label: 'Instagram' },
+    { icon: <BehanceIcon />, url: socialLinksData.behance, label: 'Behance' },
+    { icon: <Mail size={20} />, url: socialLinksData.email ? `mailto:${socialLinksData.email}` : null, label: 'Email' }
   ];
 
   return (
@@ -56,7 +116,7 @@ export const Hero = ({ profileData, footerData }) => {
                 transitionDelay: '50ms'
               }}
             >
-              Hey, I'm Shreyansh
+              {eyebrowText}
             </span>
 
             <h1 className="display-font text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white mb-6">
@@ -70,7 +130,7 @@ export const Hero = ({ profileData, footerData }) => {
                     transitionDelay: '100ms'
                   }}
                 >
-                  {firstLine}
+                  {headlineLine1}
                 </span>
               </span>
               <span className="block overflow-hidden pb-1">
@@ -83,7 +143,7 @@ export const Hero = ({ profileData, footerData }) => {
                     transitionDelay: '300ms'
                   }}
                 >
-                  {secondLine}
+                  {headlineLine2}
                 </span>
               </span>
             </h1>
@@ -97,7 +157,7 @@ export const Hero = ({ profileData, footerData }) => {
                 transitionDelay: '500ms'
               }}
             >
-              {subhead}
+              {bioText}
             </p>
 
             <div
@@ -110,7 +170,7 @@ export const Hero = ({ profileData, footerData }) => {
               }}
             >
               <a
-                href={resumeUrl}
+                href={resumeLink}
                 className="btn btn-secondary"
                 style={{ borderRadius: '9999px', padding: '0.75rem 2rem' }}
                 target="_blank"
@@ -162,9 +222,9 @@ export const Hero = ({ profileData, footerData }) => {
               {/* Rotating Gradient Frame */}
               <div className="rotating-gradient-border aspect-square w-full">
                 <div className="w-full h-full bg-[#0A0E1A] rounded-[15px] overflow-hidden flex items-center justify-center p-1.5">
-                  {profilePhoto && !profilePhoto.startsWith('svg:') ? (
+                  {portraitImage && !portraitImage.startsWith('svg:') ? (
                     <img 
-                      src={profilePhoto} 
+                      src={portraitImage} 
                       alt="Shreyansh Singh" 
                       className="w-full h-full object-cover rounded-[11px]" 
                     />
@@ -179,18 +239,20 @@ export const Hero = ({ profileData, footerData }) => {
               </div>
 
               {/* Floating Badge overlapping portrait */}
-              <div
-                className="absolute -bottom-3 -right-3 bg-[#141416]/95 border border-[#8B5CF6]/30 px-4 py-2.5 rounded-full backdrop-blur-md shadow-2xl flex items-center gap-2 will-animate"
-                style={{
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? 'translateY(0) scale(1)' : 'translateY(15px) scale(0.9)',
-                  transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)',
-                  transitionDelay: '950ms'
-                }}
-              >
-                <span className="w-2 h-2 rounded-full bg-[#FF8A4C] animate-pulse"></span>
-                <span className="text-[10px] md:text-xs font-semibold display-font tracking-wider text-white uppercase">Self-Taught Designer</span>
-              </div>
+              {badgeText && (
+                <div
+                  className="absolute -bottom-3 -right-3 bg-[#141416]/95 border border-[#8B5CF6]/30 px-4 py-2.5 rounded-full backdrop-blur-md shadow-2xl flex items-center gap-2 will-animate"
+                  style={{
+                    opacity: isLoaded ? 1 : 0,
+                    transform: isLoaded ? 'translateY(0) scale(1)' : 'translateY(15px) scale(0.9)',
+                    transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transitionDelay: '950ms'
+                  }}
+                >
+                  <span className="w-2 h-2 rounded-full bg-[#FF8A4C] animate-pulse"></span>
+                  <span className="text-[10px] md:text-xs font-semibold display-font tracking-wider text-white uppercase">{badgeText}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -229,7 +291,7 @@ export const Hero = ({ profileData, footerData }) => {
             {stats.map((stat, idx) => (
               <div key={idx} className="flex flex-col text-left">
                 <span className="text-3xl md:text-4xl font-extrabold text-white display-font mb-1 tracking-tight">
-                  {stat.number}
+                  {stat.value}
                 </span>
                 <span className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-bold font-sans">
                   {stat.label}

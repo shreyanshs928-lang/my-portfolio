@@ -126,11 +126,14 @@ export default function Dashboard() {
 
     // Hero tab
     setHeroForm({
-      headline: payload.hero.headline || '',
-      subhead: payload.hero.subhead || '',
-      resumeUrl: payload.hero.resumeUrl || '',
-      ctaLabel: payload.hero.ctaLabel || 'View Work',
-      profilePhoto: payload.hero.profilePhoto || '',
+      eyebrowText: payload.hero.eyebrowText || '',
+      headlineLine1: payload.hero.headlineLine1 || '',
+      headlineLine2: payload.hero.headlineLine2 || '',
+      bioText: payload.hero.bioText || '',
+      resumeLink: payload.hero.resumeLink || '',
+      socialLinks: payload.hero.socialLinks || { linkedin: '', instagram: '', behance: '', email: '' },
+      portraitImage: payload.hero.portraitImage || '',
+      badgeText: payload.hero.badgeText || '',
       stats: payload.hero.stats || [],
       tickerInput: (payload.hero.ticker || []).join(', ')
     });
@@ -227,11 +230,19 @@ export default function Dashboard() {
     try {
       if (activeTab === 'hero') {
         const payload = {
-          headline: heroForm.headline.trim(),
-          subhead: heroForm.subhead.trim(),
-          resumeUrl: heroForm.resumeUrl.trim(),
-          ctaLabel: heroForm.ctaLabel.trim(),
-          profilePhoto: heroForm.profilePhoto || '',
+          eyebrowText: (heroForm.eyebrowText || '').trim(),
+          headlineLine1: (heroForm.headlineLine1 || '').trim(),
+          headlineLine2: (heroForm.headlineLine2 || '').trim(),
+          bioText: (heroForm.bioText || '').trim(),
+          resumeLink: (heroForm.resumeLink || '').trim(),
+          socialLinks: {
+            linkedin: (heroForm.socialLinks?.linkedin || '').trim(),
+            instagram: (heroForm.socialLinks?.instagram || '').trim(),
+            behance: (heroForm.socialLinks?.behance || '').trim(),
+            email: (heroForm.socialLinks?.email || '').trim()
+          },
+          portraitImage: heroForm.portraitImage || '',
+          badgeText: (heroForm.badgeText || '').trim(),
           stats: heroForm.stats || [],
           ticker: heroForm.tickerInput.split(',').map((t) => t.trim()).filter(Boolean)
         };
@@ -529,27 +540,56 @@ export default function Dashboard() {
             {activeTab === 'hero' && heroForm && (
               <form onSubmit={triggerSave} className="space-y-5">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Headline (Tagline)</label>
+                  <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Hero Eyebrow Text</label>
                   <input
                     type="text"
                     required
                     className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
-                    value={heroForm.headline}
+                    value={heroForm.eyebrowText}
                     onChange={(e) => {
-                      setHeroForm({ ...heroForm, headline: e.target.value });
+                      setHeroForm({ ...heroForm, eyebrowText: e.target.value });
                       setHasUnsavedChanges(true);
                     }}
                   />
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Headline Line 1</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
+                      value={heroForm.headlineLine1}
+                      onChange={(e) => {
+                        setHeroForm({ ...heroForm, headlineLine1: e.target.value });
+                        setHasUnsavedChanges(true);
+                      }}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Headline Line 2 (Gradient text line)</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
+                      value={heroForm.headlineLine2}
+                      onChange={(e) => {
+                        setHeroForm({ ...heroForm, headlineLine2: e.target.value });
+                        setHasUnsavedChanges(true);
+                      }}
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Subhead Description</label>
+                  <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Bio Description (2-3 lines)</label>
                   <textarea
                     required
                     className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors min-h-[90px]"
-                    value={heroForm.subhead}
+                    value={heroForm.bioText}
                     onChange={(e) => {
-                      setHeroForm({ ...heroForm, subhead: e.target.value });
+                      setHeroForm({ ...heroForm, bioText: e.target.value });
                       setHasUnsavedChanges(true);
                     }}
                   />
@@ -557,25 +597,25 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">CTA Link Label</label>
+                    <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Resume Link (URL)</label>
                     <input
                       type="text"
                       className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
-                      value={heroForm.ctaLabel}
+                      value={heroForm.resumeLink}
                       onChange={(e) => {
-                        setHeroForm({ ...heroForm, ctaLabel: e.target.value });
+                        setHeroForm({ ...heroForm, resumeLink: e.target.value });
                         setHasUnsavedChanges(true);
                       }}
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Resume Drive Link</label>
+                    <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Floating Badge Text (Optional)</label>
                     <input
                       type="text"
                       className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
-                      value={heroForm.resumeUrl}
+                      value={heroForm.badgeText}
                       onChange={(e) => {
-                        setHeroForm({ ...heroForm, resumeUrl: e.target.value });
+                        setHeroForm({ ...heroForm, badgeText: e.target.value });
                         setHasUnsavedChanges(true);
                       }}
                     />
@@ -595,14 +635,81 @@ export default function Dashboard() {
                   />
                 </div>
 
+                {/* Social Links Sub-Form */}
+                <div className="space-y-4 pt-4 border-t border-[#27272a]">
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Social Links</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-xs text-[#a1a1aa] font-medium">LinkedIn URL</label>
+                      <input
+                        type="text"
+                        className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
+                        value={heroForm.socialLinks?.linkedin || ''}
+                        onChange={(e) => {
+                          setHeroForm({
+                            ...heroForm,
+                            socialLinks: { ...heroForm.socialLinks, linkedin: e.target.value }
+                          });
+                          setHasUnsavedChanges(true);
+                        }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs text-[#a1a1aa] font-medium">Instagram URL</label>
+                      <input
+                        type="text"
+                        className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
+                        value={heroForm.socialLinks?.instagram || ''}
+                        onChange={(e) => {
+                          setHeroForm({
+                            ...heroForm,
+                            socialLinks: { ...heroForm.socialLinks, instagram: e.target.value }
+                          });
+                          setHasUnsavedChanges(true);
+                        }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs text-[#a1a1aa] font-medium">Behance URL</label>
+                      <input
+                        type="text"
+                        className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
+                        value={heroForm.socialLinks?.behance || ''}
+                        onChange={(e) => {
+                          setHeroForm({
+                            ...heroForm,
+                            socialLinks: { ...heroForm.socialLinks, behance: e.target.value }
+                          });
+                          setHasUnsavedChanges(true);
+                        }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs text-[#a1a1aa] font-medium">Email Address</label>
+                      <input
+                        type="email"
+                        className="w-full bg-[#18181b]/40 border border-[#27272a] rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
+                        value={heroForm.socialLinks?.email || ''}
+                        onChange={(e) => {
+                          setHeroForm({
+                            ...heroForm,
+                            socialLinks: { ...heroForm.socialLinks, email: e.target.value }
+                          });
+                          setHasUnsavedChanges(true);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 {/* Profile photo manager */}
-                <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Hero Profile Photo</label>
+                <div className="space-y-2 pt-4 border-t border-[#27272a]">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">Hero Portrait Image</label>
                   <ImageUploader
                     section="hero"
-                    value={heroForm.profilePhoto}
+                    value={heroForm.portraitImage}
                     onChange={(url) => {
-                      setHeroForm({ ...heroForm, profilePhoto: url });
+                      setHeroForm({ ...heroForm, portraitImage: url });
                       setHasUnsavedChanges(true);
                     }}
                     placeholder="svg:profile-placeholder"
@@ -611,7 +718,10 @@ export default function Dashboard() {
 
                 {/* Dynamic Stats List Editor */}
                 <div className="space-y-4 pt-4 border-t border-[#27272a]">
-                  <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Hero Stats (Bottom Row)</h4>
+                  <div className="flex justify-between items-center">
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Hero Stats (Bottom Row, Max 4)</h4>
+                    <span className="text-xs text-[#a1a1aa]">({(heroForm.stats || []).length} of 4)</span>
+                  </div>
                   <div className="space-y-3">
                     {heroForm.stats && heroForm.stats.map((stat, index) => (
                       <div key={index} className="flex items-end gap-3 bg-[#1c1c1f] p-4 rounded border border-[#27272a]">
@@ -622,10 +732,10 @@ export default function Dashboard() {
                               type="text"
                               required
                               className="w-full bg-[#18181b]/60 border border-[#27272a] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[#6366f1] transition-colors"
-                              value={stat.number}
+                              value={stat.value}
                               onChange={(e) => {
                                 const newStats = [...heroForm.stats];
-                                newStats[index] = { ...newStats[index], number: e.target.value };
+                                newStats[index] = { ...newStats[index], value: e.target.value };
                                 setHeroForm({ ...heroForm, stats: newStats });
                                 setHasUnsavedChanges(true);
                               }}
@@ -668,9 +778,10 @@ export default function Dashboard() {
                   </div>
                   <button
                     type="button"
-                    className="admin-btn-add flex items-center gap-2 mt-2"
+                    className={`admin-btn-add flex items-center gap-2 mt-2 ${heroForm.stats && heroForm.stats.length >= 4 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={heroForm.stats && heroForm.stats.length >= 4}
                     onClick={() => {
-                      const newStats = [...(heroForm.stats || []), { number: '', label: '' }];
+                      const newStats = [...(heroForm.stats || []), { value: '', label: '' }];
                       setHeroForm({ ...heroForm, stats: newStats });
                       setHasUnsavedChanges(true);
                     }}

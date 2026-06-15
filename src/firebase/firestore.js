@@ -16,17 +16,24 @@ import {
 export const defaultPortfolioData = {
   passcode: 'admin',
   profile: {
-    name: 'Shreyansh Singh',
-    headline: 'Multidisciplinary Designer +\nChemical Engineer',
-    subhead: "I design across UI/UX, motion, print and social — blending an engineer's precision with a designer's instinct. Currently building creative systems at IIT Bombay.",
-    resumeUrl: 'https://drive.google.com/file/d/1Bypb7F4N-a477yBw4Oqg_xZpxq0V0f_B/view?usp=sharing',
-    ctaLabel: 'Download Resume',
-    profilePhoto: 'svg:profile-placeholder',
+    eyebrowText: "Hey, I'm Shreyansh",
+    headlineLine1: "Multidisciplinary Designer +",
+    headlineLine2: "Chemical Engineer",
+    bioText: "I design across UI/UX, motion, print and social — blending an engineer's precision with a designer's instinct. Currently building creative systems at IIT Bombay.",
+    resumeLink: "https://drive.google.com/file/d/1Bypb7F4N-a477yBw4Oqg_xZpxq0V0f_B/view?usp=sharing",
+    socialLinks: {
+      linkedin: "https://linkedin.com",
+      instagram: "https://instagram.com",
+      behance: "https://behance.net",
+      email: "shreyansh@example.com"
+    },
+    portraitImage: "svg:profile-placeholder",
+    badgeText: "Self-Taught Designer",
     stats: [
-      { number: '2+', label: 'Years Designing' },
-      { number: '10+', label: 'Projects Shipped' },
-      { number: '6', label: 'Disciplines' },
-      { number: "IIT Bombay '27", label: 'Student Core' }
+      { value: '2+', label: 'Years Designing' },
+      { value: '10+', label: 'Projects Shipped' },
+      { value: '6', label: 'Disciplines' },
+      { value: "IIT Bombay '27", label: 'Student Core' }
     ]
   },
   disciplines: [
@@ -160,11 +167,14 @@ export const seedDefaultData = async () => {
   // 1. Hero
   const heroRef = doc(db, 'portfolio', 'hero');
   batch.set(heroRef, {
-    headline: defaultPortfolioData.profile.headline,
-    subhead: defaultPortfolioData.profile.subhead,
-    resumeUrl: defaultPortfolioData.profile.resumeUrl,
-    ctaLabel: defaultPortfolioData.profile.ctaLabel,
-    profilePhoto: defaultPortfolioData.profile.profilePhoto,
+    eyebrowText: defaultPortfolioData.profile.eyebrowText,
+    headlineLine1: defaultPortfolioData.profile.headlineLine1,
+    headlineLine2: defaultPortfolioData.profile.headlineLine2,
+    bioText: defaultPortfolioData.profile.bioText,
+    resumeLink: defaultPortfolioData.profile.resumeLink,
+    socialLinks: defaultPortfolioData.profile.socialLinks,
+    portraitImage: defaultPortfolioData.profile.portraitImage,
+    badgeText: defaultPortfolioData.profile.badgeText,
     ticker: defaultPortfolioData.disciplines,
     stats: defaultPortfolioData.profile.stats,
     lastEdited: serverTimestamp()
